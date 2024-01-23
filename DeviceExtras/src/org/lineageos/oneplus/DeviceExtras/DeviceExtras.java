@@ -1,6 +1,6 @@
 /*
 * Copyright (C) 2016 The OmniROM Project
-* Copyright (C) 2021-2022 The Evolution X Project
+* Copyright (C) 2021-2022 The lineageos X Project
 * Copyright (C) 2018-2021 crDroid Android Project
 *
 * This program is free software: you can redistribute it and/or modify
@@ -52,6 +52,8 @@ import java.util.Random;
 
 import com.plattysoft.leonids.ParticleSystem;
 
+
+import org.lineageos.oneplus.DeviceExtras.doze.DozeSettingsActivity;
 import org.lineageos.oneplus.DeviceExtras.FileUtils;
 import org.lineageos.oneplus.DeviceExtras.modeswitch.*;
 import org.lineageos.oneplus.DeviceExtras.panelsettings.PanelSettingsActivity;
@@ -59,7 +61,6 @@ import org.lineageos.oneplus.DeviceExtras.preferences.*;
 import org.lineageos.oneplus.DeviceExtras.R;
 import org.lineageos.oneplus.DeviceExtras.services.*;
 import org.lineageos.oneplus.DeviceExtras.slider.SliderConstants;
-import org.lineageos.oneplus.DeviceExtras.touch.TouchscreenGestureSettings;
 
 public class DeviceExtras extends PreferenceFragment
         implements Preference.OnPreferenceChangeListener {
@@ -81,6 +82,7 @@ public class DeviceExtras extends PreferenceFragment
     private static TwoStatePreference mTouchBoostModeSwitch;
 
     public static final String KEY_CATEGORY_DISPLAY = "display";
+    public static final String KEY_DOZE = "advanced_doze_settings";
     public static final String KEY_PANEL_MODES = "panel_modes";
     public static final String KEY_KCAL = "kcal";
     public static final String KEY_P3_SWITCH = "p3";
@@ -120,15 +122,6 @@ public class DeviceExtras extends PreferenceFragment
     public static final String KEY_WIRELESS_CHARGING_SWITCH = "wireless_charging_mode";
     private static TwoStatePreference mPowerShareModeSwitch;
     private static TwoStatePreference mWirelessChargingModeSwitch;
-
-    public static final String KEY_CATEGORY_TOUCHSCREEN = "touchscreen";
-    public static final String KEY_TOUCHSCREEN_GESTURES = "touchscreen_gestures";
-    public static final String KEY_GAME_SWITCH = "game_mode";
-    public static final String KEY_GAME_SWITCH_WARNING = "game_mode_warning";
-    public static final String KEY_TP_EDGE_LIMIT_SWITCH = "tp_edge_limit";
-    private Preference mTouchScreenGestureSettings;
-    private static TwoStatePreference mGameModeSwitch;
-    private static TwoStatePreference mTPEdgeLimitModeSwitch;
 
     public static final String KEY_CATEGORY_SPEAKER_MIC = "speaker";
     public static final String KEY_EAR_GAIN = "earpiece_gain";
@@ -359,45 +352,6 @@ public class DeviceExtras extends PreferenceFragment
         }
 
         boolean touchscreenCategory = false;
-
-        // TouchScreen Gestures
-        touchscreenCategory = touchscreenCategory | isFeatureSupported(context, R.bool.config_deviceSupportsTouchScreenGestures);
-        if (isFeatureSupported(context, R.bool.config_deviceSupportsTouchScreenGestures)) {
-        }
-        else {
-            findPreference(KEY_TOUCHSCREEN_GESTURES ).setVisible(false);
-        }
-
-        // Game Mode
-        touchscreenCategory = touchscreenCategory | isFeatureSupported(context, R.bool.config_deviceSupportsGameMode);
-        if (isFeatureSupported(context, R.bool.config_deviceSupportsGameMode)) {
-            mGameModeSwitch = (TwoStatePreference) findPreference(KEY_GAME_SWITCH);
-            mGameModeSwitch.setEnabled(GameModeSwitch.isSupported(this.getContext()));
-            mGameModeSwitch.setChecked(GameModeSwitch.isCurrentlyEnabled(this.getContext()));
-            mGameModeSwitch.setOnPreferenceChangeListener(new GameModeSwitch());
-        }
-        else {
-           findPreference(KEY_GAME_SWITCH).setVisible(false);
-           findPreference(KEY_GAME_SWITCH_WARNING).setVisible(false);
-        }
-
-        // TP Edge Limit
-        touchscreenCategory = touchscreenCategory | isFeatureSupported(context, R.bool.config_deviceSupportsTPEdgeLimit);
-        if (isFeatureSupported(context, R.bool.config_deviceSupportsTPEdgeLimit)) {
-            mTPEdgeLimitModeSwitch = (TwoStatePreference) findPreference(KEY_TP_EDGE_LIMIT_SWITCH);
-            mTPEdgeLimitModeSwitch.setEnabled(TPEdgeLimitModeSwitch.isSupported(this.getContext()));
-            mTPEdgeLimitModeSwitch.setChecked(TPEdgeLimitModeSwitch.isCurrentlyEnabled(this.getContext()));
-            mTPEdgeLimitModeSwitch.setOnPreferenceChangeListener(new TPEdgeLimitModeSwitch());
-        }
-        else {
-           findPreference(KEY_TP_EDGE_LIMIT_SWITCH).setVisible(false);
-        }
-
-        if (!touchscreenCategory) {
-            getPreferenceScreen().removePreference((Preference) findPreference(KEY_CATEGORY_TOUCHSCREEN));
-        }
-
-        boolean speakerCategory = false;
 
         // Earpiece gain
         speakerCategory = speakerCategory | isFeatureSupported(context, R.bool.config_deviceSupportsEarGain);

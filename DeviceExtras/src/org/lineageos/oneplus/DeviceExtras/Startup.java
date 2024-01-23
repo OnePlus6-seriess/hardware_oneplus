@@ -43,7 +43,6 @@ public class Startup extends BroadcastReceiver {
         AdrenoGPUBoostPreference.restore(context);
         EarGainPreference.restore(context);
         MicGainPreference.restore(context);
-        org.lineageos.oneplus.DeviceExtras.touch.TouchscreenGestureSettings.MainSettingsFragment.restoreTouchscreenGestureStates(context);
         VibratorCallStrengthPreference.restore(context);
         VibratorNotifStrengthPreference.restore(context);
         VibratorStrengthPreference.restore(context);
