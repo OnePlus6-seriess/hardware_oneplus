@@ -91,10 +91,6 @@ public class Startup extends BroadcastReceiver {
         if (enabled) {
             restore(WirelessChargingModeSwitch.getFile(context), enabled);
                }
-        enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_GAME_SWITCH, false);
-        if (enabled) {
-            restore(GameModeSwitch.getFile(context), enabled);
-               }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_SRGB_SWITCH, false);
         if (enabled) {
         mHBM = false;
@@ -109,10 +105,6 @@ public class Startup extends BroadcastReceiver {
         if (enabled) {
         mHBM = false;
         restore(LoadingEffectModeSwitch.getFile(context), enabled);
-               }
-        enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_TP_EDGE_LIMIT_SWITCH, false);
-        if (enabled) {
-            restore(TPEdgeLimitModeSwitch.getFile(context), enabled);
                }
         enabled = sharedPrefs.getBoolean(DeviceExtras.KEY_GPU_THROTTLING_SWITCH, false);
         if (enabled) {
